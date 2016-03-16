@@ -41,6 +41,15 @@ module.exports = function(grunt) {
             ext: '.less',
             // rename: '<%= rename.less %>'
           }, {
+            // custom
+            expand: true,
+            flatten: false,
+            cwd: 'test/fixtures/custom',
+            src: ['**/*.scss'],
+            dest: 'tmp/actual/custom/less/',
+            ext: '.less',
+            // rename: '<%= rename.less %>'
+          }, {
             // Foundation
             expand: true,
             flatten: true,
@@ -117,7 +126,8 @@ module.exports = function(grunt) {
       remove_underscores: {
         options: {
           from: /\_/,
-          to: ''
+          //to: ''
+          to: '_'
         },
         src: 'tmp/actual/**/*.less'
       }
@@ -136,8 +146,7 @@ module.exports = function(grunt) {
           paths: ['tmp/actual/bootstrap/less'],
           imports: {
             less: [
-                'tmp/actual/bootstrap/less/variables.less',
-                'tmp/actual/bootstrap/less/mixins.less'
+                'tmp/actual/bootstrap/less/bootstrap.less'
             ]
           }
         },
@@ -148,6 +157,28 @@ module.exports = function(grunt) {
             src: ['*.less'],
             dest: 'tmp/actual/bootstrap/css/',
             ext: 'c.ss'
+          }
+        ]
+      },
+
+      // Custom.
+      custom: {
+        options: {
+          paths: ['tmp/actual/custom/less'],
+          imports: {
+            less: [
+                'tmp/actual/custom/less/style.less',
+                'tmp/actual/custom/less/style-blue.less'
+            ]
+          }
+        },
+        files: [{
+            expand: true,
+            flatten: true,
+            cwd: 'tmp/actual/custom/less',
+            src: ['*.less'],
+            dest: 'tmp/actual/custom/css/',
+            ext: '.css'
           }
         ]
       },
@@ -238,6 +269,9 @@ module.exports = function(grunt) {
 
   // By default, lint and run all tests.
   grunt.registerTask('test', ['jshint']);
+
+  // By default, lint and run all tests.
+  grunt.registerTask('lesstest', ['less:custom']);
 
   // Refactor code.
   grunt.registerTask('sass',   ['refactor:sass_to_less']);

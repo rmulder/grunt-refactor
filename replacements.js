@@ -21,6 +21,14 @@ exports.init = function(grunt) {
         pattern: /\$ */g,
         replacement: '@'
       },
+      {
+        pattern: /@extend \%clear/g,
+        replacement: '.clear()'
+      },
+      {
+        pattern: /\%clear/g,
+        replacement: '.clear()'
+      },
 
       // GRID SYSTEM
       // ======================================================
